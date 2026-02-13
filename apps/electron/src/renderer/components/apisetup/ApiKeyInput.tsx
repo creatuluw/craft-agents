@@ -69,6 +69,7 @@ const ANTHROPIC_PRESETS: Preset[] = [
 // configured via the Anthropic/Claude connection which routes through the Claude Agent SDK.
 const OPENAI_PRESETS: Preset[] = [
   { key: 'openai', label: 'OpenAI', url: '' },
+  { key: 'custom', label: 'Custom OpenAI-Compatible', url: '' },
 ]
 
 const COMPAT_ANTHROPIC_DEFAULTS = 'anthropic/claude-opus-4.6, anthropic/claude-sonnet-4.5, anthropic/claude-haiku-4.5'

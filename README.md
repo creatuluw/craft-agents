@@ -10,13 +10,140 @@ To understand what Craft Agents does and how it works watch this video.
 
 [Click Here (or on the image above) to watch the video on YouTube →](https://www.youtube.com/watch?v=xQouiAIilvU)
 
+## Installation
+
+### One-Line Install (Recommended)
+
+**macOS / Linux:**
+```bash
+curl -fsSL https://agents.craft.do/install-app.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://agents.craft.do/install-app.ps1 | iex
+```
+
+### Build from Source (Modified Version)
+
+This version includes **support for custom OpenAI-compatible LLM providers** (Z.ai, DeepSeek, Groq, Together AI, etc.) through the Codex/OpenAI backend.
+
+#### Quick Start (Windows)
+
+```powershell
+git clone https://github.com/lukilabs/craft-agents-oss.git
+cd craft-agents-oss
+
+# Automated build and install
+.\scripts\build-and-install.bat
+```
+
+#### Manual Build
+
+**Prerequisites:**
+- **Bun** (JavaScript runtime) - [Install Bun](https://bun.sh)
+- **Git** - [Install Git](https://git-scm.com/downloads)
+
+**Windows:**
+```powershell
+git clone https://github.com/lukilabs/craft-agents-oss.git
+cd craft-agents-oss
+bun install
+bun run electron:dist:win
+.\install\install-local.ps1
+```
+
+**macOS:**
+```bash
+git clone https://github.com/lukilabs/craft-agents-oss.git
+cd craft-agents-oss
+bun install
+bun run electron:dist:mac
+# Open release/Craft-Agent-$(uname -m).dmg and drag to Applications
+```
+
+**Linux:**
+```bash
+git clone https://github.com/lukilabs/craft-agents-oss.git
+cd craft-agents-oss
+bun install
+bun run electron:dist:linux
+chmod +x release/Craft-Agent-x64.AppImage
+./release/Craft-Agent-x64.AppImage
+```
+
+#### Development Mode
+
+For development with hot reload:
+```bash
+git clone https://github.com/lukilabs/craft-agents-oss.git
+cd craft-agents-oss
+bun install
+bun run electron:dev
+```
+
+### OpenAI-Compatible LLM Providers
+
+This modified version adds support for **custom OpenAI-compatible endpoints** through the Codex/OpenAI provider. Configure providers like Z.ai, DeepSeek, Groq, and Together AI directly in the UI.
+
+#### Setting Up a Custom Provider
+
+1. **Launch Craft Agents** after installation
+2. **Click "Set up your Agent"** or go to **Settings → AI Settings**
+3. **Select "Codex"** from provider tabs (Claude, Codex, GitHub Copilot)
+4. **Select "Codex · OpenAI API Key"** option
+5. **Click "Endpoint" dropdown** and select **"Custom OpenAI-Compatible"**
+6. **Enter your base URL** and **API key**
+7. **Enter default model** and test the connection
+
+#### Supported Providers
+
+| Provider | Base URL | Default Models |
+|----------|-----------|---------------|
+| **Z.ai** | `https://api.z.ai/api/coding/paas/v4` | `glm-5`, `glm-4` |
+| **DeepSeek** | `https://api.deepseek.com` | `deepseek-chat`, `deepseek-coder` |
+| **Groq** | `https://api.groq.com/openai/v1` | `llama-3.3-70b-versatile` |
+| **Together AI** | `https://api.together.xyz/v1` | Various (check docs) |
+| **Any OpenAI-compatible API** | Your endpoint URL | Your model IDs |
+
+#### Example: Z.ai GLM-5
+
+```
+Endpoint: https://api.z.ai/api/coding/paas/v4
+Model: glm-5
+```
+
+#### Example: DeepSeek
+
+```
+Endpoint: https://api.deepseek.com
+Model: deepseek-chat
+```
+
+#### Example: Groq
+
+```
+Endpoint: https://api.groq.com/openai/v1
+Model: llama-3.3-70b-versatile
+```
+
+#### Multiple Models
+
+You can specify multiple models as a comma-separated list. The first is the default, and the last is used for summarization:
+```
+glm-5, glm-4, glm-4-flash
+```
+
+**Documentation:** See `INSTALL.md` for complete setup guide, troubleshooting, and advanced configuration.
+
+---
 
 ## Why Craft Agents was built
 Craft Agents is a tool we built so that we (at craft.do) can work effectively with agents. It enables intuitive multitasking, no-fluff connection to any API or Service, sharing sessions, and a more document (vs code) centric workflow - in a beautiful and fluid UI.
 
-It uses the Claude Agent SDK and the Codex app-server side by side—building on what we found great and improving areas where we’ve desired improvements.
+It uses the Claude Agent SDK and Codex app-server side by side—building on what we found great and improving areas where we've desired improvements.
 
-It's built with Agent Native software principles in mind, and is highly customisable out of the box. One of the first of its kind.
+It's built with Agent Native software principles in mind, and is highly customisable out of box. One of the first of its kind.
 
 Craft Agents is open source under the Apache 2.0 license - so you are free to remix, change anything. And that's actually possible. We ourselves are building Craft Agents with Craft Agents only - no code editors - so really, any customisation is just a prompt away.
 
@@ -57,30 +184,6 @@ No. Everything is instant. Mention new skills or sources with `@`, even mid-conv
 **So I can just ask it anything?**
 Yes. That's the core idea behind agent-native software. You describe what you want, and it figures out how. That's a good use of tokens.
 
-
-## Installation
-
-### One-Line Install (Recommended)
-
-**macOS / Linux:**
-```bash
-curl -fsSL https://agents.craft.do/install-app.sh | bash
-```
-
-**Windows (PowerShell):**
-```powershell
-irm https://agents.craft.do/install-app.ps1 | iex
-```
-
-### Build from Source
-
-```bash
-git clone https://github.com/lukilabs/craft-agents-oss.git
-cd craft-agents-oss
-bun install
-bun run electron:start
-```
-
 ## Features
 
 - **Multi-Session Inbox**: Desktop app with session management, status workflow, and flagging
@@ -100,7 +203,7 @@ bun run electron:start
 
 ## Quick Start
 
-1. **Launch the app** after installation
+1. **Launch app** after installation
 2. **Choose API Connection**: Use Anthropic (API key or Claude Max) or Codex (OpenAI OAuth)
 3. **Create a workspace**: Set up a workspace to organize your sessions
 4. **Connect sources** (optional): Add MCP servers, REST APIs, or local filesystems
@@ -260,23 +363,41 @@ Or simply tell the agent you want to connect Gmail/Calendar/Drive - it will guid
 
 ## Configure Third-Party Providers (OpenRouter, Vercel AI Gateway, Ollama, etc.)
 
-Third-party and self-hosted LLM providers are supported **only through the Claude / Anthropic API Key** connection. When you select **Anthropic API Key** during setup, you can choose from:
+Third-party and self-hosted LLM providers are supported through different backends depending on the API format:
+
+### Claude Backend (Anthropic-Compatible)
+
+For Anthropic-compatible APIs (OpenRouter, Vercel AI Gateway, Ollama), select **Anthropic API Key** during setup:
 
 | Provider | Endpoint | Notes |
 |----------|----------|-------|
 | **OpenRouter** | `https://openrouter.ai/api` | Access Claude, GPT, Llama, Gemini, and hundreds of other models through a single API key. Use `provider/model-name` format (e.g. `anthropic/claude-opus-4.6`). |
 | **Vercel AI Gateway** | `https://ai-gateway.vercel.sh` | Route requests through Vercel's AI Gateway with built-in observability and caching. |
 | **Ollama** | `http://localhost:11434` | Run open-source models locally. No API key required. |
-| **Custom** | Any URL | Any OpenAI-compatible or Anthropic-compatible endpoint. |
+| **Custom Anthropic-Compatible** | Any URL | Any Anthropic-compatible endpoint using `/v1/messages`. |
 
-### Why only under Claude?
+### Codex Backend (OpenAI-Compatible)
+
+**This modified version adds support for OpenAI-compatible APIs through the Codex provider.** Select **Codex · OpenAI API Key** during setup, then choose **"Custom OpenAI-Compatible"** from the Endpoint dropdown:
+
+| Provider | Endpoint | Notes |
+|----------|----------|-------|
+| **Z.ai** | `https://api.z.ai/api/coding/paas/v4` | GLM-5, GLM-4 models |
+| **DeepSeek** | `https://api.deepseek.com` | DeepSeek-Chat, DeepSeek-Coder |
+| **Groq** | `https://api.groq.com/openai/v1` | Llama 3, Mixtral, Gemma |
+| **Together AI** | `https://api.together.xyz/v1` | Various open-source models |
+| **Custom OpenAI-Compatible** | Any URL | Any OpenAI-compatible endpoint using `/chat/completions`. |
+
+### Why Two Backends?
 
 Craft Agents uses two different agent backends:
 
-- **Claude** — powered by the [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk), which natively supports custom base URLs and provider routing. This makes it straightforward to point requests at any compatible endpoint.
-- **Codex** — powered by the [Codex app-server](https://github.com/lukilabs/craft-agents-codex), which communicates via JSON-RPC over stdio. Codex connections are limited to **direct OpenAI API** (via API key or ChatGPT subscription OAuth).
+- **Claude** — powered by [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk), which natively supports custom base URLs and provider routing. Use this for Anthropic-compatible APIs.
+- **Codex** — powered by [Codex app-server](https://github.com/lukilabs/craft-agents-codex), which communicates via JSON-RPC over stdio. **This modified version extends Codex to support custom OpenAI-compatible endpoints.**
 
-If you want to use models from OpenRouter, Vercel AI Gateway, Ollama, or any other third-party provider, set up a **Claude / Anthropic API Key** connection and select the desired endpoint.
+Choose the appropriate backend based on your provider's API format:
+- **Anthropic format** (`/v1/messages`) → Use **Claude** provider
+- **OpenAI format** (`/chat/completions`) → Use **Codex** provider with **Custom OpenAI-Compatible** endpoint
 
 ## Configuration
 
@@ -344,7 +465,7 @@ Or configure manually in `~/.craft-agent/workspaces/{id}/hooks.json`:
 
 **Supported events:** `LabelAdd`, `LabelRemove`, `PermissionModeChange`, `FlagChange`, `TodoStateChange`, `SchedulerTick`, `PreToolUse`, `PostToolUse`, `SessionStart`, `SessionEnd`, and more.
 
-See the [Hooks documentation](https://agents.craft.do/docs/hooks/overview) for the full reference.
+See the [Hooks documentation](https://agents.craft.do/docs/hooks/overview) for full reference.
 
 ## Advanced Features
 
@@ -408,7 +529,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ### Third-Party Licenses
 
-This project uses the [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk), which is subject to [Anthropic's Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms).
+This project uses [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk), which is subject to [Anthropic's Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms).
 
 Craft Agents also bundles a custom Codex app-server fork to support OpenAI/Codex connections:
 
